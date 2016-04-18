@@ -5,6 +5,7 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 export default class LogMonitorEntryList extends Component {
   static propTypes = {
     actionsById: PropTypes.object,
+    actionTransformer: PropTypes.func,
     computedStates: PropTypes.array,
     stagedActionIds: PropTypes.array,
     skippedActionIds: PropTypes.array,
@@ -26,6 +27,7 @@ export default class LogMonitorEntryList extends Component {
     const {
       theme,
       actionsById,
+      actionTransformer,
       computedStates,
       select,
       skippedActionIds,
@@ -37,7 +39,7 @@ export default class LogMonitorEntryList extends Component {
 
     for (let i = 0; i < stagedActionIds.length; i++) {
       const actionId = stagedActionIds[i];
-      const action = actionsById[actionId].action;
+      const action = actionTransformer(actionsById[actionId].action);
       const { state, error } = computedStates[i];
       let previousState;
       if (i > 0) {
